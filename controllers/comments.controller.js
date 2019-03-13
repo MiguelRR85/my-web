@@ -1,14 +1,33 @@
 const Comment = require('../models/comment.model');
+const User = require('../models/comment.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 
+module.exports.list = (req,res,next) => {
+
+  const postId = req.params.postId;
+
+  Comment.find({post: postId})
+      .populate({ path: 'user'})
+      .then(comments => {
+        // console.log(comments);
+        res.status(201).json(comments)
+      })
+      .catch(error => next(error))
+} 
+
 module.exports.create = (req, res, next) => {
   const comment = new Comment(req.body);
+  
   comment.user = req.user.id;
   comment.post = req.params.postId;
-
+  
   comment.save()
-    .then(comment => res.status(201).json(comment))
+  Comment.populate(comment, {path:"user"})
+    .then(comment => { 
+      console.log("create", comment);
+      res.status(201).json(comment)
+    })
     .catch(error => next(error));
 }
 

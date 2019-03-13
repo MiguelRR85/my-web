@@ -3,7 +3,8 @@ const router = express.Router({ mergeParams: true });
 const comments = require('../controllers/comments.controller');
 const secure = require('../middleware/secure.middleware');
 
-router.post('/', secure.isAuthenticated, comments.create);
-router.delete('/:id', secure.isAuthenticated, comments.delete);
+router.post('/post/:postId', comments.create);
+router.get('/post/:postId', comments.list);
+router.delete('/:id', comments.delete);
 
 module.exports = router;

@@ -5,9 +5,10 @@ const posts = require('../controllers/posts.controller');
 const secure = require('../middleware/secure.middleware');
 const user = require('../middleware/user.middleware');
 
-router.get('/', secure.isAuthenticated, posts.list);
-router.post('/', secure.isAuthenticated, user.isMe('userId'), uploader.array('images'), posts.create);
-router.get('/:id', secure.isAuthenticated, posts.get);
-router.delete('/:id', secure.isAuthenticated, user.isMe('userId'), posts.delete);
+router.get('/', posts.list);
+router.get('/:id', posts.get);
+router.post('/', uploader.single('image'), posts.create);
+router.post('/:id', uploader.single('image'), posts.update);
+router.delete('/:id', posts.delete);
 
 module.exports = router;

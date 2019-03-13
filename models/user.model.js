@@ -12,40 +12,29 @@ const userSchema =  new mongoose.Schema({
     type: String,
     required: true
   },
-  name: {
-    type: String
-  }
+  name: String,
+  admin: {
+    type:Boolean,
+    default: false
+  },
+  avatar: String,
+  avatarPath: String,
+
 }, { 
   timestamps: true,
-  toObject: {
-    virtuals: true
-  },
-  toJSON: {
-    virtuals: true,
-    transform: (doc, ret) => {
-      ret.id = doc._id;
-      delete ret._id;
-      delete ret.__v;
-      delete ret.password;
-      if (!ret['posts']) {
-        ret.posts = [];
-      }
-      return ret;
-    }
-  }
+  // toObject: {
+  //   virtuals: true
+  // },
+  // toJSON: {
+  //   virtuals: true,
+  //   transform: (doc, ret) => {
+  //     ret.id = doc._id;
+  //     delete ret._id;
+  //     delete ret.__v;
+  //     return ret;
+  //   }
+  // }
 });
-
-userSchema.virtual('posts', {
-  ref: 'Post',
-  localField: '_id',
-  foreignField: 'user',
-  options: { sort: { createdAt: -1 }, limit: 20 }
-});
-
-userSchema.virtual('avatar')
-  .get(function() {
-    return `http://identicon.org?t=${this.email}&s=256`;
-  })
 
 userSchema.pre('save', function save(next) {
   const user = this;

@@ -7,6 +7,7 @@ module.exports.create = (req, res, next) => {
     if (error) {
       next(error);
     } else {
+      
       req.login(user, (error) => {
         if (error) {
           next(error);

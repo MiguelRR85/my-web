@@ -14,17 +14,19 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, `Comment needs an owner`]
-  }
+  },
+  name: String,
+  avatar: String
 }, { 
   timestamps: true,
-  toJSON: {
-    transform: (doc, ret) => {
-      ret.id = doc._id;
-      delete ret._id;
-      delete ret.__v;      
-      return ret;
-    }
-  }
+  // toJSON: {
+  //   transform: (doc, ret) => {
+  //     ret.id = doc._id;
+  //     delete ret._id;
+  //     delete ret.__v;      
+  //     return ret;
+  //   }
+  
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

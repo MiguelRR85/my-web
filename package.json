@@ -1,10 +1,10 @@
 {
-  "name": "post-book-api",
+  "name": "Miguel-Rodriguez-web",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "DEBUG=myWeb:* nodemon ./bin/www"
+    "dev": "DEBUG=Miguel-Rodriguez-web:* nodemon ./bin/www"
   },
   "engines": {
     "node": "8.11.1"
@@ -16,6 +16,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-session": "^1.15.6",
+    "file-system": "^2.2.2",
     "http-errors": "~1.6.2",
     "mongoose": "^5.2.18",
     "morgan": "~1.9.0",
