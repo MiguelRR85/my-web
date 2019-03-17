@@ -1,8 +1,7 @@
 const Work = require('../models/work.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
-const file = require('file-system');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 module.exports.list = (req, res, next) => {
   Work.find()
@@ -12,10 +11,11 @@ module.exports.list = (req, res, next) => {
 
 module.exports.create = (req, res, next) => {
   const work = new Work(req.body);
-console.log("work--->Controll", work)
+  console.log("work--->Controll", work)
+  console.log("work--->Controll1", req.file)
   if(req.file){
-    work.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    work.imagePath = req.file.path;
+    work.img = `${req.protocol}://${req.get('host')}/uploads/works/${req.file.filename}`;
+    work.imgPath = req.file.path;
   }
 
   work.save()
@@ -34,19 +34,19 @@ module.exports.update = (req, res, next) => {
     .then(work => {
       if(req.file){
         console.log("hay foto")
-        fs.unlink(`${work.imagePath}`);
+        fs.unlink(`${work.imgPath}`);
       } 
-      lastPath = work.imagePath;
-      lastImage = work.image;
+      lastPath = work.imgPath;
+      lastImage = work.img;
   })
     .catch()
  
     if(req.file){
-      work.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-      work.imagePath = req.file.path;
+      work.img = `${req.protocol}://${req.get('host')}/uploads/works/${req.file.filename}`;
+      work.imgPath = req.file.path;
     }else{
-      work.image = lastImage;
-      work.imagePath = lastPath;
+      work.img = lastImage;
+      work.imgPath = lastPath;
     }
     
   Work.findByIdAndUpdate(workId, work)

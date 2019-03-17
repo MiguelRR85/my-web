@@ -4,8 +4,7 @@ const Post = require('../models/post.model');
 require('dotenv').config()
 const Comment = require('../models/comment.model');
 const createError = require('http-errors');
-const file = require('file-system');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 module.exports.list = (req, res, next) => {
   User.find()
@@ -39,13 +38,17 @@ module.exports.update = (req, res, next) => {
     .catch()
  
     if(req.file){
-      user.avatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      
+      user.avatar = `${req.protocol}://${req.get('host')}/uploads/users/${req.file.filename}`;
       user.avatarPath = req.file.path;
     }else{
       user.avatar = lastImage;
       user.avatarPath = lastPath;
     }
     
+    if(req.body.email === process.env.ADMIN_EMAIL){
+      user.admin = true;
+    }
   User.findByIdAndUpdate(userId, user)
     .then(user => {
       if (!user) {
@@ -63,18 +66,23 @@ module.exports.update = (req, res, next) => {
 module.exports.create = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
+      console.log("CONTROLADOR", user )
       if (user) {
+        
+        console.log("CONTROLADOR-USER", user )
+
         throw createError(409, `User with email ${req.body.email} already exists`);
       } else { 
-
+        
         const user = new User(req.body);
-
+        console.log("CONTROLADOR-NO-USER", user )
         if(req.body.email === process.env.ADMIN_EMAIL){
           user.admin = true;
         }
         
         if(req.file){
-          user.avatar = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+          console.log("...........................", req.file)
+          user.avatar = `${req.protocol}://${req.get('host')}/uploads/users/${req.file.filename}`;
           user.avatarPath = req.file.path;
         }
         user.save()

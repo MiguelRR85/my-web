@@ -1,8 +1,7 @@
 const Post = require('../models/post.model');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
-var file = require('file-system');
-var fs = require('fs');
+const fs = require('fs-extra');
 
 module.exports.list = (req, res, next) => {
   Post.find()
@@ -23,7 +22,7 @@ module.exports.create = (req, res, next) => {
   if(req.user.admin === true){
     
     if(req.file){
-      post.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      post.image = `${req.protocol}://${req.get('host')}/uploads/posts/${req.file.filename}`;
       post.imagePath = req.file.path; 
     }
 
@@ -57,7 +56,7 @@ module.exports.update = (req, res, next) => {
     .catch()
  
     if(req.file){
-      post.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      post.image = `${req.protocol}://${req.get('host')}/uploads/posts/${req.file.filename}`;
       post.imagePath = req.file.path;
     }else{
       post.image = lastImage;
