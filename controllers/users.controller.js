@@ -21,6 +21,7 @@ module.exports.get = (req, res, next) => {
 
 module.exports.update = (req, res, next) => {
   const user = new User(req.body);
+  console.log("qq",user)
   let userId = req.params.id;
   let lastPath;
   let lastImage;

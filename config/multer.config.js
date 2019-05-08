@@ -16,21 +16,34 @@ const storage = multer.diskStorage({
         if(file.fieldname === 'avatar'){
             User.findOne({ email: req.body.email })
                 .then(user => {
-                    if( !user ){
                         fs.ensureDir(dir1)
                             .then(() => {
                                 next(null, './public/uploads/users');
                             })
                             .catch(err => {
                                 next(err)
-                            })
-                    }else{
-                        throw createError(409, `User with email ${req.body.email} already exists`);
-                    }
-                })
-                .catch(err => {
-                    next(err);
-                })                    
+                            })   
+                    })
+                    .catch(err => {
+                        next(err);
+                    })                    
+                // .then(user => {
+                //     if( !user ){
+                //         fs.ensureDir(dir1)
+                //             .then(() => {
+                //                 next(null, './public/uploads/users');
+                //             })
+                //             .catch(err => {
+                //                 next(err)
+                //             })
+                //     }else{
+                //         throw createError(409, `User with email ${req.body.email} already exists`);
+                //             
+                //     }
+                // })
+                // .catch(err => {
+                //     next(err);
+                // })                    
         }                
                     
                 
