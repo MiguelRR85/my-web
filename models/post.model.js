@@ -9,6 +9,10 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: 'The post content is required'
   },
+  resumeContent: {
+    type: String,
+    required: 'The post resume is required'
+  },
   image: String,
   imagePath: String,
   nameUser:String,
