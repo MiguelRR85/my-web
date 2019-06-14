@@ -18,7 +18,8 @@ module.exports.get = (req, res, next) => {
 
 module.exports.create = (req, res, next) => {
   const post = new Post(req.body);
-  console.log(post);
+  // console.log(post);
+  
   if(req.user.admin === true){
     
     if(req.file){
@@ -79,8 +80,8 @@ module.exports.update = (req, res, next) => {
 
 module.exports.delete = (req, res, next) => {
   const id = req.params.id;
-
-  Post.findByIdAndDelete(id)
+  if(req.user.admin === true){
+    Post.findByIdAndDelete(id)
     .then(post => {
       if (!post) {
         throw createError(404, 'Post not found');
@@ -89,4 +90,6 @@ module.exports.delete = (req, res, next) => {
       }
     })
     .catch(error => next(error));
+  }
+  
 }

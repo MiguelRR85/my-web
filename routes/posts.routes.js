@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const uploader = require('../config/multer.config');
 const posts = require('../controllers/posts.controller');
-const secure = require('../middleware/secure.middleware');
-const user = require('../middleware/user.middleware');
+
+
 
 router.get('/', posts.list);
 router.get('/:id', posts.get);

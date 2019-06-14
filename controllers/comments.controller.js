@@ -10,7 +10,6 @@ module.exports.list = (req,res,next) => {
   Comment.find({post: postId})
       .populate({ path: 'user'})
       .then(comments => {
-        // console.log(comments);
         res.status(201).json(comments)
       })
       .catch(error => next(error))
@@ -25,7 +24,7 @@ module.exports.create = (req, res, next) => {
   comment.save()
   Comment.populate(comment, {path:"user"})
     .then(comment => { 
-      console.log("create", comment);
+     
       res.status(201).json(comment)
     })
     .catch(error => next(error));
