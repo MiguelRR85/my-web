@@ -1,6 +1,6 @@
 
 
-const originsAllowed = process.env.CORS_ORIGINS2 || process.env.CORS_ORIGINS || [
+const originsAllowed = process.env.CORS_ORIGINS || process.env.CORS_ORIGINS2 || [
   'http://localhost:3000',
   'http://localhost:4200',
   
